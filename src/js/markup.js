@@ -1,17 +1,40 @@
-<div class="photo-card">
-  <img src="" alt="" loading="lazy" />
+export { markupListOfImagesEl };
+
+function markupListOfImagesEl(cards) {
+  return cards
+    .map(
+      ({
+        webformatURL,
+        largeImageURL,
+        tags,
+        likes,
+        views,
+        comments,
+        downloads,
+      }) => `<div class="gallery__item">
+  <a class="gallery__link" href="${largeImageURL}">
+    <img
+      class="gallery__image"
+      src="${webformatURL}"
+      alt="${tags}"
+      loading="lazy"
+    />
+  </a>
   <div class="info">
     <p class="info-item">
-      <b>Likes</b>
+      <b>Likes</b>${likes}
     </p>
     <p class="info-item">
-      <b>Views</b>
+      <b>Views</b>${views}
     </p>
     <p class="info-item">
-      <b>Comments</b>
+      <b>Comments</b>${comments}
     </p>
     <p class="info-item">
-      <b>Downloads</b>
+      <b>Downloads</b>${downloads}
     </p>
   </div>
-</div>;
+</div>`
+    )
+    .join('');
+}

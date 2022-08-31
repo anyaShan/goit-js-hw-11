@@ -1,6 +1,7 @@
 import Notiflix from 'notiflix';
 import axios from 'axios';
 import PixabayApiService from './js/pixabay-service';
+import { markupListOfImagesEl } from './js/markup';
 
 const refs = {
   searchEl: document.querySelector('.search-form'),
@@ -18,8 +19,8 @@ function onSearch(event) {
 
   pixabayApiService.query = event.currentTarget.elements.searchQuery.value;
   //   console.log(searchQuery);
-
-  pixabayApiService.fetchImages();
+  pixabayApiService.resetPage();
+  pixabayApiService.fetchImages().then(markup);
 
   //   refs.listCountriesEl.innerHTML = '';
   //   refs.infoOfCountryEl.innerHTML = '';
@@ -28,5 +29,24 @@ function onSearch(event) {
 }
 
 function onLoadMore() {
-  pixabayApiService.fetchImages();
+  pixabayApiService.fetchImages().then(markup);
+}
+
+function markup(allImages) {
+  //   let amountOfCountries = allCountries.length;
+
+  //   if (amountOfCountries > 10) {
+  //     return noMarkupEl();
+  //   }
+
+  //   if (amountOfCountries > 1 && amountOfCountries <= 10) {
+  //     return renderListCountries(allCountries);
+  //   }
+
+  renderListOfGallery(allImages);
+}
+
+function renderListOfGallery(allImages) {
+  const markupListOfGallery = markupListOfImagesEl(allImages);
+  refs.galleryEl.insertAdjacentHTML('beforeend', markupListOfGallery);
 }
