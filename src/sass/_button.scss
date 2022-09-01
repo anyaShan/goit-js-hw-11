@@ -20,4 +20,8 @@
         background-color: rgb(64, 84, 201);
 
     }
+
+    &.is-hidden {
+        display: none;
+    }
 }

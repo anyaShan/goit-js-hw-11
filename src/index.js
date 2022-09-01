@@ -7,6 +7,7 @@ const refs = {
   searchEl: document.querySelector('.search-form'),
   galleryEl: document.querySelector('.gallery'),
   btnLoadMoreEl: document.querySelector('.load-more'),
+  // btnSearch: document.querySelector('button[type="submit"]'),
 };
 
 const pixabayApiService = new PixabayApiService();
@@ -14,16 +15,25 @@ const pixabayApiService = new PixabayApiService();
 refs.searchEl.addEventListener('submit', onSearch);
 refs.btnLoadMoreEl.addEventListener('click', onLoadMore);
 
+refs.btnLoadMoreEl.classList.add('is-hidden');
+
 function onSearch(event) {
   event.preventDefault();
 
   clearListOfGallery();
-  pixabayApiService.query = event.currentTarget.elements.searchQuery.value;
-  //   console.log(searchQuery);
-  pixabayApiService.resetPage();
-  pixabayApiService.fetchImages(successMarkupEl()).then(markup);
+  pixabayApiService.query =
+    event.currentTarget.elements.searchQuery.value.trim();
+  // console.log(pixabayApiService.query);
 
-  //   refs.listCountriesEl.innerHTML = '';
+  if (pixabayApiService.query === '') {
+    return noMarkupEl();
+  }
+
+  refs.btnLoadMoreEl.classList.add('is-hidden');
+  pixabayApiService.resetPage();
+  pixabayApiService.fetchImages().then(markup);
+
+  // refs.galleryEl.innerHTML = '';
   //   refs.infoOfCountryEl.innerHTML = '';
 
   //   fetchImages(searchQuery).then(markup).catch(error);
@@ -40,11 +50,9 @@ function markup(allImages) {
     return noMarkupEl();
   }
 
-  //   if (amountOfCountries > 1 && amountOfCountries <= 10) {
-  //     return renderListCountries(allCountries);
-  //   }
-
   renderListOfGallery(allImages);
+
+  refs.btnLoadMoreEl.classList.remove('is-hidden');
 }
 
 function renderListOfGallery(allImages) {

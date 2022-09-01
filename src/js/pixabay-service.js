@@ -1,3 +1,8 @@
+const URL_API = `https://pixabay.com/api/`;
+const PIXABAY_KEY = `key=29626479-30d098b137805aefe019417a9&`;
+const FILTER_VALUES = `image_type=photo&orientation=horizontal&safesearch=true`;
+const FILTER_PAGE = `per_page=40`;
+
 export default class PixabayApiService {
   constructor() {
     this.searchQuery = '';
@@ -5,11 +10,6 @@ export default class PixabayApiService {
   }
 
   fetchImages() {
-    const URL_API = `https://pixabay.com/api/`;
-    const PIXABAY_KEY = `key=29626479-30d098b137805aefe019417a9&`;
-    const FILTER_VALUES = `image_type=photo&orientation=horizontal&safesearch=true`;
-    const FILTER_PAGE = `per_page=40`;
-
     return fetch(
       `${URL_API}?${PIXABAY_KEY}q=${this.searchQuery}&${FILTER_VALUES}&${FILTER_PAGE}&${this.page}`
     )
