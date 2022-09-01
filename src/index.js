@@ -17,10 +17,11 @@ refs.btnLoadMoreEl.addEventListener('click', onLoadMore);
 function onSearch(event) {
   event.preventDefault();
 
+  clearListOfGallery();
   pixabayApiService.query = event.currentTarget.elements.searchQuery.value;
   //   console.log(searchQuery);
   pixabayApiService.resetPage();
-  pixabayApiService.fetchImages().then(markup);
+  pixabayApiService.fetchImages(successMarkupEl()).then(markup);
 
   //   refs.listCountriesEl.innerHTML = '';
   //   refs.infoOfCountryEl.innerHTML = '';
@@ -33,11 +34,11 @@ function onLoadMore() {
 }
 
 function markup(allImages) {
-  //   let amountOfCountries = allCountries.length;
+  let emptyArr = [];
 
-  //   if (amountOfCountries > 10) {
-  //     return noMarkupEl();
-  //   }
+  if (allImages.length === emptyArr.length) {
+    return noMarkupEl();
+  }
 
   //   if (amountOfCountries > 1 && amountOfCountries <= 10) {
   //     return renderListCountries(allCountries);
@@ -49,4 +50,18 @@ function markup(allImages) {
 function renderListOfGallery(allImages) {
   const markupListOfGallery = markupListOfImagesEl(allImages);
   refs.galleryEl.insertAdjacentHTML('beforeend', markupListOfGallery);
+}
+
+function clearListOfGallery() {
+  refs.galleryEl.innerHTML = '';
+}
+
+function noMarkupEl() {
+  Notiflix.Notify.failure(
+    'Sorry, there are no images matching your search query. Please try again.'
+  );
+}
+
+function successMarkupEl() {
+  Notiflix.Notify.success('Hooray! We found totalHits images.');
 }
