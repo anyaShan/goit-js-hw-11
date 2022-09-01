@@ -25,11 +25,12 @@ function onSearch(event) {
     event.currentTarget.elements.searchQuery.value.trim();
   // console.log(pixabayApiService.query);
 
+  refs.btnLoadMoreEl.classList.add('is-hidden');
+
   if (pixabayApiService.query === '') {
     return noMarkupEl();
   }
 
-  refs.btnLoadMoreEl.classList.add('is-hidden');
   pixabayApiService.resetPage();
   pixabayApiService.fetchImages().then(markup);
 
