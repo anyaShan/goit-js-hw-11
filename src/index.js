@@ -74,5 +74,5 @@ function noMarkupEl() {
 }
 
 function successMarkupEl() {
-  Notiflix.Notify.success('Hooray! We found totalHits images.');
+  Notiflix.Notify.success('Hooray! We found ${totalHits} images.');
 }
