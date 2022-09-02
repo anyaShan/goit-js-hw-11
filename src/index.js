@@ -36,13 +36,20 @@ function onSearch(event) {
   }
 
   pixabayApiService.resetPage();
-  pixabayApiService.fetchImages().then(markup).then(notification);
+  pixabayApiService
+    .fetchImages()
+    .then(markup)
+    .then(notification)
+    .catch(error => console.log(error));
 }
 
 function onLoadMore() {
   pixabayApiService.incrementPage();
-  pixabayApiService.fetchImages().then(markup).then(notification);
-  // .catch(error => console.log(error));
+  pixabayApiService
+    .fetchImages()
+    .then(markup)
+    .then(notification)
+    .catch(error => console.log(error));
 }
 
 function markup({ data }) {
