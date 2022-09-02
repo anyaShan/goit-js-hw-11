@@ -109,7 +109,7 @@ function successMarkupEl(totalImages) {
 }
 
 function endOfMarkupEl() {
-  Notiflix.Notify.failure(
+  Notiflix.Notify.info(
     "We're sorry, but you'failureve reached the end of search results."
   );
 }
