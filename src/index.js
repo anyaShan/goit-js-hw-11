@@ -7,7 +7,6 @@ const refs = {
   searchEl: document.querySelector('.search-form'),
   galleryEl: document.querySelector('.gallery'),
   btnLoadMoreEl: document.querySelector('.load-more'),
-  // btnSearch: document.querySelector('button[type="submit"]'),
 };
 
 const pixabayApiService = new PixabayApiService();
@@ -23,7 +22,6 @@ function onSearch(event) {
   clearListOfGallery();
   pixabayApiService.query =
     event.currentTarget.elements.searchQuery.value.trim();
-  // console.log(pixabayApiService.query);
 
   refs.btnLoadMoreEl.classList.add('is-hidden');
 
@@ -32,25 +30,18 @@ function onSearch(event) {
   }
 
   pixabayApiService.resetPage();
-  pixabayApiService.fetchImages().then(notification).then(markup);
-
-  // refs.galleryEl.innerHTML = '';
-  //   refs.infoOfCountryEl.innerHTML = '';
-
-  //   fetchImages(searchQuery).then(markup).catch(error);
+  pixabayApiService.fetchImages().then(markup).then(notification);
 }
 
 function onLoadMore() {
   pixabayApiService.incrementPage();
-  pixabayApiService.fetchImages().then(notification).then(markup);
+  pixabayApiService.fetchImages().then(markup).then(notification);
   // .catch(error => console.log(error));
 }
 
-function notification({ data }) {
+function markup({ data }) {
   const allImages = data.hits;
   const totalImages = data.totalHits;
-  const amountOfImages = pixabayApiService.perPage * pixabayApiService.page;
-  // console.log(totalImages);
 
   if (allImages.length === 0) {
     return noMarkupEl();
@@ -60,20 +51,23 @@ function notification({ data }) {
     successMarkupEl(totalImages);
   }
 
-  if (amountOfImages > 60) {
+  renderListOfGallery(allImages);
+
+  refs.btnLoadMoreEl.classList.remove('is-hidden');
+
+  return totalImages;
+}
+
+function notification(totalImages) {
+  const amountOfImages = pixabayApiService.perPage * pixabayApiService.page;
+
+  if (totalImages < amountOfImages) {
+  }
+  if (amountOfImages > totalImages || totalImages < amountOfImages) {
     refs.btnLoadMoreEl.classList.add('is-hidden');
 
     return endOfMarkupEl();
   }
-
-  return data.hits;
-}
-
-function markup(allImages) {
-  renderListOfGallery(allImages);
-  console.log(allImages);
-
-  refs.btnLoadMoreEl.classList.remove('is-hidden');
 }
 
 function renderListOfGallery(allImages) {
