@@ -32,7 +32,7 @@ function onSearch(event) {
   }
 
   pixabayApiService.resetPage();
-  pixabayApiService.fetchImages().then(markup);
+  pixabayApiService.fetchImages().then(notification).then(markup);
 
   // refs.galleryEl.innerHTML = '';
   //   refs.infoOfCountryEl.innerHTML = '';
@@ -41,16 +41,37 @@ function onSearch(event) {
 }
 
 function onLoadMore() {
-  pixabayApiService.fetchImages().then(markup);
+  pixabayApiService.incrementPage();
+  pixabayApiService.fetchImages().then(notification).then(markup);
+  // .catch(error => console.log(error));
 }
 
-function markup(allImages) {
+function notification({ data }) {
+  const allImages = data.hits;
+  const totalImages = data.totalHits;
+  const endPageOfImages = Math.ceil(100 / pixabayApiService.perPage);
+  // console.log(totalImages);
   let emptyArr = [];
 
   if (allImages.length === emptyArr.length) {
     return noMarkupEl();
   }
 
+  if (pixabayApiService.page === 1) {
+    successMarkupEl(totalImages);
+  }
+
+  if (pixabayApiService.page === endPageOfImages) {
+    refs.btnLoadMoreEl.classList.add('is-hidden');
+    endOfMarkupEl();
+    return;
+  }
+
+  return data;
+}
+
+function markup(data) {
+  const allImages = data.hits;
   renderListOfGallery(allImages);
 
   refs.btnLoadMoreEl.classList.remove('is-hidden');
@@ -73,6 +94,12 @@ function noMarkupEl() {
   );
 }
 
-function successMarkupEl() {
-  Notiflix.Notify.success('Hooray! We found ${totalHits} images.');
+function successMarkupEl(totalImages) {
+  Notiflix.Notify.success(`Hooray! We found ${totalImages} images.`);
+}
+
+function endOfMarkupEl() {
+  Notiflix.Notify.failure(
+    "We're sorry, but you'failureve reached the end of search results."
+  );
 }

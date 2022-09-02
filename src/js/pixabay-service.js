@@ -12,16 +12,9 @@ export default class PixabayApiService {
   }
 
   fetchImages() {
-    return fetch(
-      `${URL_API}?${PIXABAY_KEY}q=${this.searchQuery}&${FILTER_VALUES}&${this.perPage}&${this.page}`
-    )
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        this.incrementPage();
-
-        return data.hits;
-      });
+    return axios.get(
+      `${URL_API}?${PIXABAY_KEY}q=${this.searchQuery}&${FILTER_VALUES}&per_page=${this.perPage}&page=${this.page}`
+    );
 
     //   return fetch(`${URL_API}${name}?${FILTER_VALUES}`).then(response => {
     //     if (!response.ok) {
