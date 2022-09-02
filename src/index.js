@@ -22,7 +22,7 @@ refs.btnLoadMoreEl.addEventListener('click', onLoadMore);
 
 refs.btnLoadMoreEl.classList.add('is-hidden');
 
-function onSearch(event) {
+async function onSearch(event) {
   event.preventDefault();
 
   clearListOfGallery();
@@ -36,20 +36,23 @@ function onSearch(event) {
   }
 
   pixabayApiService.resetPage();
-  pixabayApiService
-    .fetchImages()
-    .then(markup)
-    .then(notification)
-    .catch(error => console.log(error));
+
+  fetchImages();
 }
 
 function onLoadMore() {
   pixabayApiService.incrementPage();
-  pixabayApiService
-    .fetchImages()
-    .then(markup)
-    .then(notification)
-    .catch(error => console.log(error));
+  fetchImages();
+}
+
+async function fetchImages() {
+  try {
+    const responce = await pixabayApiService.fetchImages();
+    const images = await markup(responce);
+    notification(images);
+  } catch (error) {
+    console.log(error.massage);
+  }
 }
 
 function markup({ data }) {

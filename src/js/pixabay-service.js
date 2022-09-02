@@ -11,17 +11,10 @@ export default class PixabayApiService {
     this.perPage = 40;
   }
 
-  fetchImages() {
-    return axios.get(
+  async fetchImages() {
+    return await axios.get(
       `${URL_API}?${PIXABAY_KEY}q=${this.searchQuery}&${FILTER_VALUES}&per_page=${this.perPage}&page=${this.page}`
     );
-
-    //   return fetch(`${URL_API}${name}?${FILTER_VALUES}`).then(response => {
-    //     if (!response.ok) {
-    //       throw new Error(response.status);
-    //     }
-    //     return response.json();
-    //   });
   }
 
   incrementPage() {
