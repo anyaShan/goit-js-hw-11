@@ -49,7 +49,7 @@ function onLoadMore() {
 function notification({ data }) {
   const allImages = data.hits;
   const totalImages = data.totalHits;
-  const endPageOfImages = Math.ceil(100 / pixabayApiService.perPage);
+  const amountOfImages = pixabayApiService.perPage * pixabayApiService.page;
   // console.log(totalImages);
   let emptyArr = [];
 
@@ -61,10 +61,10 @@ function notification({ data }) {
     successMarkupEl(totalImages);
   }
 
-  if (pixabayApiService.page === endPageOfImages) {
+  if (amountOfImages > 100) {
     refs.btnLoadMoreEl.classList.add('is-hidden');
-    endOfMarkupEl();
-    return;
+
+    return endOfMarkupEl();
   }
 
   return data;
