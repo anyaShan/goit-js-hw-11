@@ -51,9 +51,8 @@ function notification({ data }) {
   const totalImages = data.totalHits;
   const amountOfImages = pixabayApiService.perPage * pixabayApiService.page;
   // console.log(totalImages);
-  let emptyArr = [];
 
-  if (allImages.length === emptyArr.length) {
+  if (allImages.length === 0) {
     return noMarkupEl();
   }
 
@@ -61,18 +60,18 @@ function notification({ data }) {
     successMarkupEl(totalImages);
   }
 
-  if (amountOfImages > 100) {
+  if (amountOfImages > 60) {
     refs.btnLoadMoreEl.classList.add('is-hidden');
 
     return endOfMarkupEl();
   }
 
-  return data;
+  return data.hits;
 }
 
-function markup(data) {
-  const allImages = data.hits;
+function markup(allImages) {
   renderListOfGallery(allImages);
+  console.log(allImages);
 
   refs.btnLoadMoreEl.classList.remove('is-hidden');
 }
