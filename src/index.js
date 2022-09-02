@@ -1,5 +1,6 @@
 import Notiflix from 'notiflix';
-import axios from 'axios';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 import PixabayApiService from './js/pixabay-service';
 import { markupListOfImagesEl } from './js/markup';
 
@@ -10,6 +11,11 @@ const refs = {
 };
 
 const pixabayApiService = new PixabayApiService();
+
+const lightbox = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionDelay: 250,
+});
 
 refs.searchEl.addEventListener('submit', onSearch);
 refs.btnLoadMoreEl.addEventListener('click', onLoadMore);
@@ -52,6 +58,7 @@ function markup({ data }) {
   }
 
   renderListOfGallery(allImages);
+  lightbox.refresh();
 
   refs.btnLoadMoreEl.classList.remove('is-hidden');
 
