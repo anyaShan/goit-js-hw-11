@@ -22,6 +22,8 @@ refs.btnLoadMoreEl.addEventListener('click', onLoadMore);
 
 refs.btnLoadMoreEl.classList.add('is-hidden');
 
+// document.body.style.overflow = 'hidden';
+
 async function onSearch(event) {
   event.preventDefault();
 
@@ -42,6 +44,7 @@ async function onSearch(event) {
 
 function onLoadMore() {
   pixabayApiService.incrementPage();
+
   fetchImages();
 }
 
@@ -68,6 +71,16 @@ function markup({ data }) {
   }
 
   renderListOfGallery(allImages);
+
+  const { height: cardHeight } = document
+    .querySelector('.gallery')
+    .firstElementChild.getBoundingClientRect();
+
+  window.scrollBy({
+    top: cardHeight * 2,
+    behavior: 'smooth',
+  });
+
   lightbox.refresh();
 
   refs.btnLoadMoreEl.classList.remove('is-hidden');
